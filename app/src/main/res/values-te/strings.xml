@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">స్ట్రీమ్ఫ్లిక్స్</string>
+
+    <string name="loading_error_title">లోపం సంభవించింది</string>
+    <string name="loading_error_retry">మళ్ళీ ప్రయత్నించు</string>
+    <string name="loading_error_clear_cache">కాష్ క్లియర్ చేయి</string>
+    <string name="loading_error_details">లోపం వివరాలు</string>
+
+    <string name="update_title">కొత్త అప్డేట్ అందుబాటులో ఉంది</string>
+    <string name="update_message">యాప్ యొక్క కొత్త వెర్షన్ అందుబాటులో ఉంది!</string>
+    <string name="update_current_version_label">ప్రస్తుత వెర్షన్</string>
+    <string name="update_new_version_label">కొత్త వెర్షన్</string>
+    <string name="update_release_notes">విడుదల గమనికలు</string>
+    <string name="update_later">తర్వాత చూద్దాం</string>
+    <string name="update">అప్డేట్ చేయి</string>
+    <string name="settings_update_check">స్వయంచాలక అప్డేట్ తనిఖీ</string>
+
+    <string name="app_layout">యాప్ లేఅవుట్</string>
+    <string name="app_layout_auto">ఆటో</string>
+    <string name="app_layout_mobile">మొబైల్ లేఅవుట్</string>
+    <string name="app_layout_tv">టీవీ లేఅవుట్</string>
+    <string name="app_layout_apply">వర్తించు</string>
+
+    <string name="providers_all_languages">అన్ని భాషలు</string>
+    <string name="providers_favorites">ఇష్టమైనవి</string>
+    <string name="providers_choose_title">ప్రొవైడర్‌ను ఎంచుకోండి</string>
+
+    <string name="main_menu_change_provider">ప్రొవైడర్ మార్చు</string>
+    <string name="main_menu_search">శోధన</string>
+    <string name="main_menu_home">హోమ్</string>
+    <string name="main_menu_movies">సినిమాలు</string>
+    <string name="main_menu_tv_shows">టీవీ షోలు</string>
+    <string name="main_menu_all_channels">అన్ని ఛానెల్స్</string>
+    <string name="main_menu_settings">సెట్టింగ్స్</string>
+    <string name="main_menu_theme_change">థీమ్ మార్చు</string>
+
+    <string name="theme_default">డిఫాల్ట్</string>
+    <string name="theme_nero_amoled_oled">నీరో అమోలెడ్/ఓలెడ్</string>
+    <string name="theme_sunset_cinema">సన్సెట్ సినిమా</string>
+    <string name="theme_steel_blue">స్టీల్ బ్లూ</string>
+    <string name="theme_forest_night">ఫారెస్ట్ నైట్</string>
+    <string name="theme_crimson_noir">క్రిమ్సన్ నోయిర్</string>
+    <string name="theme_midnight_violet">మిడ్‌నైట్ వయొలెట్</string>
+    <string name="theme_nord_frost">నార్డ్ ఫ్రాస్ట్</string>
+    <string name="theme_emerald_luxe">ఎమెరాల్డ్ లక్స్</string>
+    <string name="theme_retro_neon">రెట్రో నియాన్</string>
+
+    <string name="search_input_hint">సినిమాలు, టీవీ షోలు శోధించండి</string>
+    <string name="search_input_hint_iptv">ఛానెల్స్ శోధించండి</string>
+    <string name="global_search">గ్లోబల్ శోధన</string>
+    <string name="search_empty_query">దయచేసి శోధన ప్రశ్నను నమోదు చేయండి</string>
+    <string name="searching">శోధిస్తోంది...</string>
+    <string name="search_error">లోపం</string>
+    <string name="result">ఫలితం</string>
+    <string name="results">ఫలితాలు</string>
+    <string name="switching_to_provider">%sకు మారుతోంది</string>
+
+    <string name="home_swiper_watch_now">ఇప్పుడు చూడండి</string>
+    <string name="home_continue_watching">చూస్తూనే ఉన్నారు</string>
+    <string name="home_favorite_movies">ఇష్టమైన సినిమాలు</string>
+    <string name="home_favorite_tv_shows">ఇష్టమైన టీవీ షోలు</string>
+
+    <string name="option_episode_open_tv_show">టీవీ షోకి వెళ్ళు</string>
+    <string name="option_show_favorite">ఇష్టాలకు జోడించు</string>
+    <string name="option_show_unfavorite">ఇష్టాల నుండి తొలగించు</string>
+    <string name="option_show_watched">చూసినట్లు గుర్తు</string>
+    <string name="option_show_unwatched">చూడనట్లు గుర్తు</string>
+    <string name="option_clear_program">కంటిన్యూ వాచింగ్ నుండి తొలగించు</string>
+    <string name="option_cancel">రద్దు చేయి</string>
+
+    <string name="episode_item_info">S%d E%d • %s</string>
+    <string name="episode_item_info_episode_only">E%d • %s</string>
+
+    <string name="tv_show_item_episode_number">E%d</string>
+    <string name="tv_show_item_season_number_episode_number">S%d E%d</string>
+    <string name="tv_show_item_type">టీవీ</string>
+
+    <string name="tv_show_runtime_hours_minutes">%d h %d min</string>
+    <string name="tv_show_runtime_minutes">%d min</string>
+    <string name="tv_show_watch_season_episode">S%d E%d చూడండి</string>
+    <string name="tv_show_watch_episode">E%d చూడండి</string>
+    <string name="tv_show_trailer">ట్రైలర్</string>
+    <string name="tv_show_seasons">సీజన్లు</string>
+    <string name="tv_show_cast">తారాగణం</string>
+    <string name="tv_show_directors">దర్శకుడు</string>
+    <string name="tv_show_you_may_also_like">మీకు ఇవి కూడా నచ్చవచ్చు</string>
+
+    <string name="movie_item_type">సినిమా</string>
+    <string name="movie_runtime_hours_minutes">%d h %d min</string>
+    <string name="movie_runtime_minutes">%d min</string>
+    <string name="movie_watch_now">ఇప్పుడు చూడండి</string>
+    <string name="movie_trailer">ట్రైలర్</string>
+    <string name="movie_cast">తారాగణం</string>
+    <string name="movie_directors">దర్శకుడు</string>
+    <string name="movie_you_may_also_like">మీకు ఇవి కూడా నచ్చవచ్చు</string>
+
+    <string name="season_number">సీజన్ %d</string>
+    <string name="episode_number">ఎపిసోడ్ %d</string>
+
+    <string name="people_birthday">పుట్టినరోజు</string>
+    <string name="people_deathday">మరణ దినం</string>
+    <string name="people_birthplace">జన్మస్థలం</string>
+    <string name="people_biography">జీవిత చరిత్ర</string>
+    <string name="people_read_more">మరింత చదవండి &gt;</string>
+
+    <string name="genre_header_name">%s సినిమాలు మరియు టీవీ షోలు</string>
+
+    <string name="player_subtitle_tv_show">S%d E%d • %s</string>
+    <string name="player_subtitle_tv_show_episode_only">E%d • %s</string>
+    <string name="player_picture_in_picture_not_supported">PiP మీ పరికరంలో మద్దతు లేదు</string>
+    <string name="player_external_player_title">దీనితో ప్లే చేయండి</string>
+    <string name="player_external_player_error_video">వీడియో ఇంకా లోడ్ కాలేదు</string>
+    <string name="player_not_available_it_message">ఇటాలియన్ సర్వర్లలో అందుబాటులో లేదు, ఇతర భాషలలో TMDBలో వెతకండి</string>
+    <string name="player_not_available_lang_message">%sలో అందుబాటులో లేదు, TMDBలో ఇతర భాషలలో వెతకండి</string>
+    <string name="player_retry_later_message">ఈ ప్రొవైడర్‌లో వీడియో ప్రస్తుతం అందుబాటులో లేదు. దయచేసి తర్వాత మళ్ళీ ప్రయత్నించండి</string>
+    <string name="player_next_episode_up_next">తదుపరిది</string>
+    <string name="player_next_episode_action">ఇప్పుడు ప్లే చేయి</string>
+    <string name="player_next_episode_dismiss">తోసివేయి</string>
+    <string name="player_next_episode_ready">తదుపరి ఎపిసోడ్ సిద్ధంగా ఉంది</string>
+    <string name="player_next_episode_autoplay_in">%dsలో తదుపరిది ప్లే అవుతుంది</string>
+    <string name="player_aspect_ratio_fit">స్క్రీన్‌కు సరిపోయేలా</string>
+    <string name="player_aspect_ratio_fill">సాగదీయి</string>
+    <string name="player_aspect_ratio_zoom">జూమ్</string>
+    <string name="player_aspect_ratio_zoom_4_3">4:3కి జూమ్</string>
+    <string name="player_aspect_ratio_stretch_vertical">నిలువుగా సాగదీయి</string>
+    <string name="player_aspect_ratio_super_zoom">సూపర్ జూమ్</string>
+    <string name="player_settings_title">సెట్టింగ్స్</string>
+    <string name="player_settings_quality_title">ప్రస్తుత వీడియో కోసం నాణ్యత</string>
+    <string name="player_settings_quality_label">నాణ్యత</string>
+    <string name="player_settings_quality_auto">ఆటో</string>
+    <string name="player_settings_quality">%dp</string>
+    <string name="player_settings_audio_title">ఆడియో</string>
+    <string name="player_settings_audio_label">ఆడియో</string>
+    <string name="player_settings_subtitles_title">ఉపశీర్షికలు/క్లోజ్డ్ క్యాప్షన్స్</string>
+    <string name="player_settings_subtitles_label">క్యాప్షన్స్</string>
+    <string name="player_settings_subtitles_off">ఆఫ్</string>
+
+    <string name="settings_about">గురించి</string>
+    <string name="settings_about_version">వెర్షన్</string>
+    <string name="settings_version_tv">టీవీ వెర్షన్</string>
+    <string name="settings_version_mobile">మొబైల్ వెర్షన్</string>
+    <string name="settings_about_version_name">వెర్షన్ %s</string>
+    <string name="settings_help">సహాయం</string>
+    <string name="settings_telegram">టెలిగ్రామ్ గ్రూప్</string>
+    <string name="settings_refresh_cache_title">డేటాబేస్ నుండి కాష్ రిఫ్రెష్ చేయి</string>
+    <string name="settings_refresh_cache_summary">వాచ్ హిస్టరీ మరియు యాప్ డేటాను డేటాబేస్ నుండి రీలోడ్ చేయండి</string>
+    <string name="settings_close_app">యాప్ మూసివేయి</string>
+    <string name="settings_autoplay">ఆటోప్లే తదుపరి ఎపిసోడ్</string>
+    <string name="settings_autoplay_on">ఆన్</string>
+    <string name="settings_autoplay_off">ఆఫ్</string>
+    <string name="autoplay_settings">ఆటోప్లే సెట్టింగ్స్</string>
+    <string name="player_settings">ప్లేయర్ సెట్టింగ్స్</string>
+    <string name="miscelaneous_title">ఇతర</string>
+    <string name="clear_cache_done">కాష్ క్లియర్ చేయబడింది</string>
+    <string name="clear_cache_done_409">HTTP 409 కారణంగా కాష్ ఆటోమేటిక్‌గా క్లియర్ చేయబడింది</string>
+
+    <string name="settings_category_interface_title">ఇంటర్ఫేస్ సెట్టింగ్స్</string>
+    <string name="settings_immersive_mode">ఇమ్మర్సివ్ మోడ్</string>
+    <string name="settings_immersive_mode_on">ఆన్ (బార్లు దాచబడ్డాయి)</string>
+    <string name="settings_immersive_mode_off">ఆఫ్ (బార్లు కనిపిస్తాయి)</string>
+
+    <string name="settings_category_appearance">స్వరూపం</string>
+    <string name="settings_app_language_title">యాప్ భాష</string>
+    <string name="settings_app_language_summary">యాప్ ఏ బండిల్ అనువాదాన్ని ఉపయోగించాలో ఎంచుకోండి</string>
+    <string name="settings_app_language_system">సిస్టమ్ డిఫాల్ట్</string>
+    <string name="settings_app_language_english">ఇంగ్లీష్</string>
+    <string name="settings_app_language_arabic">అరబిక్</string>
+    <string name="settings_app_language_german">జర్మన్</string>
+    <string name="settings_app_language_spanish">స్పానిష్</string>
+    <string name="settings_app_language_french">ఫ్రెంచ్</string>
+    <string name="settings_app_language_italian">ఇటాలియన్</string>
+    <string name="settings_app_language_polish">పోలిష్</string>
+    <string name="settings_app_language_telugu">తెలుగు</string>
+    <string name="settings_theme_title">యాప్ థీమ్</string>
+    <string name="player_settings_gestures_title">సంజ్ఞలు</string>
+
+    <string name="settings_category_tmdb">TMDb సెట్టింగ్స్</string>
+    <string name="settings_tmdb_api_key">కస్టమ్ TMDb API కీ</string>
+    <string name="settings_tmdb_api_key_summary">యాప్‌తో అందించిన డిఫాల్ట్ API కీని ఉపయోగించడానికి ఖాళీగా వదలండి</string>
+    <string name="settings_parental_control_title">పేరెంటల్ కంట్రోల్</string>
+    <string name="settings_section_content_title">కంటెంట్ మరియు భద్రత</string>
+
+    <string name="backup_category_title">బ్యాకప్ మరియు రీస్టోర్</string>
+    <string name="backup_export_title">యూజర్ డేటా ఎగుమతి</string>
+    <string name="backup_import_title">యూజర్ డేటా దిగుమతి</string>
+
+    <string name="voice_search">వాయిస్ శోధన</string>
+    <string name="voice_prompt">ఇప్పుడు మాట్లాడండి</string>
+
+    <string name="watch_trailer_with">దీనితో ట్రైలర్ చూడండి...</string>
+    <string name="youtube">YouTube</string>
+    <string name="smarttube">SmartTube</string>
+
+    <string name="error_dialog_title">లోపం వివరాలు</string>
+    <string name="error_dialog_message">లోపం సందేశం</string>
+    <string name="error_dialog_copy">కాపీ</string>
+    <string name="error_dialog_copied">క్లిప్‌బోర్డ్‌కు కాపీ చేయబడింది!</string>
+    <string name="error_dialog_unknown">తెలియని లోపం</string>
+</resources>

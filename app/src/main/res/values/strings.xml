@@ -442,6 +442,7 @@
     <string name="settings_app_language_french">French</string>
     <string name="settings_app_language_italian">Italian</string>
     <string name="settings_app_language_polish">Polish</string>
+    <string name="settings_app_language_telugu">Telugu</string>
     <string name="player_settings_gestures_title">Gestures</string>
     <string name="player_settings_keep_screen_on_title">Keep screen on when paused</string>
 
@@ -480,6 +481,7 @@
     <string name="settings_enable_tmdb_enabled">TMDb enabled</string>
     <string name="settings_enable_tmdb_disabled">TMDb disabled</string>
     <string name="settings_category_parental_control">Parental Control</string>
+    <string name="settings_parental_control_title">Parental Control</string>
     <string name="settings_parental_pin_title">Parental PIN</string>
     <string name="settings_parental_pin_summary">Set a PIN to protect parental-control changes</string>
     <string name="settings_parental_pin_not_set">PIN not set</string>
