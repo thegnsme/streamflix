@@ -52,9 +52,8 @@ jobs:
           BUILD_TOOLS_VERSION: "34.0.0"
 
       - name: Save signed APK
-        run:
-          cp "${{ steps.sign_apk.outputs.signedReleaseFile }}"
-          /tmp/app-release-default.apk
+        run: |
+          cp "${{ steps.sign_apk.outputs.signedReleaseFile }}" /tmp/app-release-default.apk
 
       - name: Build Mobile-Only APK
         run: |
@@ -74,9 +73,8 @@ jobs:
           BUILD_TOOLS_VERSION: "34.0.0"
 
       - name: Save mobile signed APK
-        run:
-          cp "${{ steps.sign_apk_mobile.outputs.signedReleaseFile }}"
-          /tmp/app-release-mobile.apk
+        run: |
+          cp "${{ steps.sign_apk_mobile.outputs.signedReleaseFile }}" /tmp/app-release-mobile.apk
 
       - name: Build TV-Only APK
         run: |
@@ -96,9 +94,8 @@ jobs:
           BUILD_TOOLS_VERSION: "34.0.0"
 
       - name: Save TV signed APK
-        run:
-          cp "${{ steps.sign_apk_tv.outputs.signedReleaseFile }}"
-          /tmp/app-release-tv.apk
+        run: |
+          cp "${{ steps.sign_apk_tv.outputs.signedReleaseFile }}" /tmp/app-release-tv.apk
 
       - name: Create Release & Upload Assets
         env:
