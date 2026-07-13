@@ -14,13 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v1
 
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
+      - name: Setup JDK environment
+        uses: actions/setup-java@v1
         with:
           java-version: 17
-          distribution: "temurin"
 
       - name: Access Secrets
         env:
@@ -33,13 +32,10 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
-      - name: Pre-clean
-        run: rm -f app/build/outputs/apk/release/*.apk
-
-      - name: Build Default APK (TV)
+      - name: Build APK
         run: ./gradlew assembleRelease --stacktrace
 
-      - name: Sign Default APK
+      - name: Sign APK
         id: sign_apk
         uses: r0adkll/sign-android-release@v1
         with:
@@ -51,16 +47,34 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Save signed APK
-        run: |
-          cp "${{ steps.sign_apk.outputs.signedReleaseFile }}" /tmp/app-release-default.apk
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
 
-      - name: Build Mobile-Only APK
+      - name: Upload Release APK
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
+          asset_name:
+            ${{ github.event.repository.name }}-${{ github.ref_name }}.apk
+          asset_content_type: application/zip
+
+      - name: Set Mobile version
         run: |
           echo APP_LAYOUT=mobile >> local.properties
-          ./gradlew assembleRelease --stacktrace
 
-      - name: Sign Mobile-Only APK
+      - name: Build APK
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Sign APK
         id: sign_apk_mobile
         uses: r0adkll/sign-android-release@v1
         with:
@@ -72,16 +86,26 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Save mobile signed APK
-        run: |
-          cp "${{ steps.sign_apk_mobile.outputs.signedReleaseFile }}" /tmp/app-release-mobile.apk
+      - name: Upload Release APK
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.sign_apk_mobile.outputs.signedReleaseFile }}
+          asset_name:
+            ${{ github.event.repository.name }}-${{ github.ref_name
+            }}-only-mobile.apk
+          asset_content_type: application/zip
 
-      - name: Build TV-Only APK
+      - name: Set TV version
         run: |
           echo APP_LAYOUT=tv >> local.properties
-          ./gradlew assembleRelease --stacktrace
 
-      - name: Sign TV-Only APK
+      - name: Build APK
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Sign APK
         id: sign_apk_tv
         uses: r0adkll/sign-android-release@v1
         with:
@@ -93,21 +117,14 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Save TV signed APK
-        run: |
-          cp "${{ steps.sign_apk_tv.outputs.signedReleaseFile }}" /tmp/app-release-tv.apk
-
-      - name: Create Release & Upload Assets
+      - name: Upload Release APK
+        uses: actions/upload-release-asset@v1.0.1
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          RELEASE_TAG="${GITHUB_REF#refs/tags/}"
-          BASE="${{ github.event.repository.name }}-${{ github.ref_name }}"
-          mkdir -p /tmp/assets
-          cp /tmp/app-release-default.apk "/tmp/assets/$BASE.apk"
-          cp /tmp/app-release-mobile.apk "/tmp/assets/$BASE-only-mobile.apk"
-          cp /tmp/app-release-tv.apk "/tmp/assets/$BASE-only-tv.apk"
-          gh release create "$RELEASE_TAG" \
-            --title "Release $RELEASE_TAG" \
-            --notes "Automated release for $RELEASE_TAG" \
-            /tmp/assets/*
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.sign_apk_tv.outputs.signedReleaseFile }}
+          asset_name:
+            ${{ github.event.repository.name }}-${{ github.ref_name
+            }}-only-tv.apk
+          asset_content_type: application/zip
