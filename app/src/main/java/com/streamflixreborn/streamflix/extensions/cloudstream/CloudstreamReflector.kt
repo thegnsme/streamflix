@@ -70,7 +70,7 @@ class CloudstreamReflector {
         vararg args: Any?,
     ): T? = suspendCoroutineUninterceptedOrReturn { cont ->
         runCatching {
-            val argTypes = args.map { it?.javaClass ?: Any::class.java }
+            val argTypes: Array<Class<*>> = args.map { it?.javaClass ?: Any::class.java }
                 .toTypedArray() + arrayOf(Continuation::class.java)
             val method = obj::class.java.getMethod(methodName, *argTypes)
             val result = method.invoke(obj, *args, cont)

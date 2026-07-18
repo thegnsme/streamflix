@@ -1,6 +1,9 @@
 // file: extensions/manager/ExtensionManager.kt
 package com.streamflixreborn.streamflix.extensions.manager
 
+import okio.buffer
+import okio.sink
+
 import android.content.Context
 import android.util.Log
 import com.streamflixreborn.streamflix.extensions.adapter.ExtensionProviderAdapter
@@ -19,8 +22,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import okhttp3.Request
-import okio.BufferedSink
-import okio.Okio
 import java.io.File
 import java.io.FileInputStream
 import java.security.DigestInputStream
@@ -749,8 +750,7 @@ class ExtensionManager(
 
         val body = response.body ?: throw ExtensionManagerException("Empty response body from $url")
 
-        val sink: BufferedSink = Okio.buffer(Okio.sink(destFile))
-        sink.use { s ->
+        destFile.sink().buffer().use { s ->
             s.writeAll(body.source())
         }
     }

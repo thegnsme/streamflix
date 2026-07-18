@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -58,11 +59,7 @@ class ExtensionsMobileFragment : Fragment(R.layout.fragment_extensions_mobile) {
 
         view.findViewById<TextView>(R.id.btn_extensions_browse_repos)
             ?.setOnClickListener {
-                // Navigate to RepositoriesMobileFragment
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.container, RepositoriesMobileFragment())
-                    .addToBackStack(null)
-                    .commit()
+                findNavController().navigate(R.id.repositories)
             }
 
         // ── Observe extensions ─────────────────────────────────────────────

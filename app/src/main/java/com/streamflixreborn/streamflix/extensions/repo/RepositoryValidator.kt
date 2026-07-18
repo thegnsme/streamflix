@@ -75,8 +75,8 @@ object RepositoryValidator {
 
         val httpUrl = trimmed.toHttpUrlOrNull()
         return httpUrl != null &&
-            (httpUrl.scheme() == "http" || httpUrl.scheme() == "https") &&
-            httpUrl.host().isNotBlank()
+            (httpUrl.scheme == "http" || httpUrl.scheme == "https") &&
+            httpUrl.host.isNotBlank()
     }
 
     /**
