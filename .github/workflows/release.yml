@@ -47,9 +47,16 @@ jobs:
 
       - name: Rename full APK
         run: |
+          echo "=== APK dir contents ==="
+          find app/build/outputs/apk -type f 2>/dev/null || echo "(directory not found)"
+          echo "=== Copy APK ==="
           apk=$(find app/build/outputs/apk/debug -name '*.apk' 2>/dev/null | head -1)
-          if [ -n "$apk" ]; then cp "$apk" streamflix-full-debug.apk; fi
-          echo "APK source: ${apk:-none}"
+          if [ -n "$apk" ]; then
+            cp "$apk" streamflix-full-debug.apk
+            echo "✅ Copied $apk -> streamflix-full-debug.apk"
+          else
+            echo "⚠️ No APK found for full build"
+          fi
 
       # ── Mobile APK ──
       - name: Build mobile APK
@@ -60,9 +67,16 @@ jobs:
 
       - name: Rename mobile APK
         run: |
+          echo "=== APK dir contents ==="
+          find app/build/outputs/apk -type f 2>/dev/null || echo "(directory not found)"
+          echo "=== Copy APK ==="
           apk=$(find app/build/outputs/apk/debug -name '*.apk' 2>/dev/null | head -1)
-          if [ -n "$apk" ]; then cp "$apk" streamflix-mobile-debug.apk; fi
-          echo "APK source: ${apk:-none}"
+          if [ -n "$apk" ]; then
+            cp "$apk" streamflix-mobile-debug.apk
+            echo "✅ Copied $apk -> streamflix-mobile-debug.apk"
+          else
+            echo "⚠️ No APK found for mobile build"
+          fi
 
       # ── TV APK ──
       - name: Build TV APK
@@ -73,15 +87,20 @@ jobs:
 
       - name: Rename TV APK
         run: |
+          echo "=== APK dir contents ==="
+          find app/build/outputs/apk -type f 2>/dev/null || echo "(directory not found)"
+          echo "=== Copy APK ==="
           apk=$(find app/build/outputs/apk/debug -name '*.apk' 2>/dev/null | head -1)
-          if [ -n "$apk" ]; then cp "$apk" streamflix-tv-debug.apk; fi
-          echo "APK source: ${apk:-none}"
+          if [ -n "$apk" ]; then
+            cp "$apk" streamflix-tv-debug.apk
+            echo "✅ Copied $apk -> streamflix-tv-debug.apk"
+          else
+            echo "⚠️ No APK found for tv build"
+          fi
 
       # ── Release ──
       - name: Create Release
-        if:
-          ${{ github.event_name == 'push' && startsWith(github.ref,
-          'refs/tags/') }}
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ github.ref_name }}
