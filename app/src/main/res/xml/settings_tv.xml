@@ -369,6 +369,16 @@
     <PreferenceCategory
         android:title="@string/miscelaneous_title">
 
+        <Preference
+            android:key="p_settings_extensions"
+            android:title="@string/settings_extensions_title"
+            android:summary="@string/settings_extensions_summary" />
+
+        <Preference
+            android:key="p_settings_repositories"
+            android:title="@string/settings_repositories_title"
+            android:summary="@string/settings_repositories_summary" />
+
         <SwitchPreference
             android:key="UPDATE_CHECK_ENABLED"
             android:title="@string/settings_update_check"

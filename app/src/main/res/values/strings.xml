@@ -302,6 +302,10 @@
     <string name="settings_keep_screen_on_when_paused">Keep screen on when paused</string>
     <string name="settings_keep_screen_on_when_paused_summary">Prevents the screen from turning off when a video is paused</string>
     <string name="miscelaneous_title">Miscellaneous</string>
+    <string name="settings_extensions_title">Extensions</string>
+    <string name="settings_extensions_summary">Manage installed content extensions</string>
+    <string name="settings_repositories_title">Repositories</string>
+    <string name="settings_repositories_summary">Manage extension repositories</string>
     <string name="settings_screen_misc_summary">Version info, help links and community shortcuts</string>
     <string name="clear_cache_done">Cache cleared</string>
     <string name="clear_cache_done_409">Cache cleared automatically due to HTTP 409</string>

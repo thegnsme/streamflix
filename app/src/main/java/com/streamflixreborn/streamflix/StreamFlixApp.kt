@@ -10,6 +10,7 @@ import org.conscrypt.Conscrypt
 import com.streamflixreborn.streamflix.database.AppDatabase
 import com.streamflixreborn.streamflix.providers.AniWorldProvider
 import com.streamflixreborn.streamflix.providers.SerienStreamProvider
+import com.streamflixreborn.streamflix.extensions.startup.ExtensionInitializer
 import com.streamflixreborn.streamflix.utils.AppLanguageManager
 import com.streamflixreborn.streamflix.utils.ArtworkRepairScheduler
 import com.streamflixreborn.streamflix.utils.CacheUtils
@@ -85,6 +86,8 @@ class StreamFlixApp : Application() {
             AppDatabase.setup(appContext)
             SerienStreamProvider.initialize(appContext)
             AniWorldProvider.initialize(appContext)
+            // Initialize extension system
+            ExtensionInitializer.init(this@StreamFlixApp)
             ArtworkRepairScheduler.schedule(appContext, UserPreferences.currentProvider)
             CacheUtils.autoClearIfNeeded(appContext, thresholdMb = threshold)
         }

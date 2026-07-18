@@ -235,4 +235,14 @@
         android:id="@+id/settings_about"
         android:name="com.streamflixreborn.streamflix.fragments.settings.about.SettingsAboutMobileFragment"
         android:label="fragment_settings_about_mobile" />
+    <fragment
+        android:id="@+id/extensions"
+        android:name="com.streamflixreborn.streamflix.extensions.settings.ExtensionsMobileFragment"
+        android:label="Extensions"
+        tools:layout="@layout/fragment_extensions_mobile" />
+    <fragment
+        android:id="@+id/repositories"
+        android:name="com.streamflixreborn.streamflix.extensions.settings.RepositoriesMobileFragment"
+        android:label="Repositories"
+        tools:layout="@layout/fragment_repositories_mobile" />
 </navigation>
