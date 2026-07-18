@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.streamflixreborn.streamflix.models.Provider as ModelProvider
+import com.streamflixreborn.streamflix.extensions.adapter.ProviderRegistry
 import com.streamflixreborn.streamflix.providers.Provider
 import com.streamflixreborn.streamflix.providers.TmdbProvider
 import com.streamflixreborn.streamflix.utils.UserPreferences
@@ -35,7 +36,7 @@ class ProvidersViewModel : ViewModel() {
             val isFavoritesFilter = language == "favorites"
             val favorites = UserPreferences.favoriteProviders
 
-            val providers = Provider.providers.keys
+            val providers = ProviderRegistry.allProviders().keys
                 .filter { 
                     if (isFavoritesFilter) {
                         favorites.contains(it.name)
@@ -47,7 +48,7 @@ class ProvidersViewModel : ViewModel() {
                 .toMutableList()
 
             if (language == null || isFavoritesFilter) {
-                val availableLanguages = Provider.providers.keys.map { it.language }.distinct()
+                val availableLanguages = ProviderRegistry.allProviders().keys.map { it.language }.distinct()
                 availableLanguages.forEach { lang ->
                     if (lang != "pl") {
                         val tmdbName = "TMDb (${getLanguageDisplayName(lang)})"

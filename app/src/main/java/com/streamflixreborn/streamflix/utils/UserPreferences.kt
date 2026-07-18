@@ -68,7 +68,7 @@ object UserPreferences {
                 val lang = providerName.substringAfter("TMDb (").substringBefore(")")
                 return TmdbProvider(lang)
             }
-            return Provider.providers.keys.find { it.name == providerName }
+            return Provider.findByName(providerName)
         }
         set(value) {
             // CRITICO: Resetta l'istanza del database prima di cambiare provider

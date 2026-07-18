@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".extensions.settings.ExtensionsTvFragment">
+
+    <TextView
+        android:id="@+id/tv_extensions_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="70dp"
+        android:gravity="center"
+        android:text="Installed Extensions"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btn_extensions_check_updates"
+        style="@style/AppTheme.Widget.Tv.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="Check for Updates"
+        app:layout_constraintEnd_toStartOf="@id/btn_extensions_browse_repos"
+        app:layout_constraintTop_toBottomOf="@id/tv_extensions_header" />
+
+    <TextView
+        android:id="@+id/btn_extensions_browse_repos"
+        style="@style/AppTheme.Widget.Tv.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="Browse Repositories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_extensions_check_updates"
+        app:layout_constraintTop_toBottomOf="@id/tv_extensions_header" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_extensions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingStart="70dp"
+        android:paddingEnd="70dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_extensions_check_updates"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_setting_tv" />
+
+    <TextView
+        android:id="@+id/tv_extensions_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No extensions installed"
+        android:textColor="#808080"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_extensions_header"
+        tools:visibility="visible" />
+
+    <include
+        android:id="@+id/is_loading"
+        layout="@layout/layout_is_loading_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_extensions_header" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.Group
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -449,6 +450,16 @@ class SettingsMobileFragment : PreferenceFragmentCompat() {
             
             isSelectable = false
             setOnPreferenceClickListener(null)
+        }
+
+        findPreference<Preference>("p_settings_extensions")?.setOnPreferenceClickListener {
+            findNavController().navigate(R.id.extensions)
+            true
+        }
+
+        findPreference<Preference>("p_settings_repositories")?.setOnPreferenceClickListener {
+            findNavController().navigate(R.id.repositories)
+            true
         }
 
         findPreference<Preference>("p_settings_help")?.setOnPreferenceClickListener {

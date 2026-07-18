@@ -224,4 +224,14 @@
         android:id="@+id/settings"
         android:name="com.streamflixreborn.streamflix.fragments.settings.SettingsTvFragment"
         android:label="fragment_settings_tv" />
+    <fragment
+        android:id="@+id/extensions"
+        android:name="com.streamflixreborn.streamflix.extensions.settings.ExtensionsTvFragment"
+        android:label="Extensions"
+        tools:layout="@layout/fragment_extensions_tv" />
+    <fragment
+        android:id="@+id/repositories"
+        android:name="com.streamflixreborn.streamflix.extensions.settings.RepositoriesTvFragment"
+        android:label="Repositories"
+        tools:layout="@layout/fragment_repositories_tv" />
 </navigation>
