@@ -10,13 +10,9 @@ permissions:
   contents: write
 
 jobs:
-  build:
-    name: Build APK
+  build-and-release:
+    name: Build & Release APK
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        layout: [full, mobile, tv]
-      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,37 +38,50 @@ jobs:
           echo "RABBITSTREAM_SOURCE_API=${{ secrets.RABBITSTREAM_SOURCE_API || 'test' }}" >> local.properties
           echo "SUBDL_API_KEY=test" >> local.properties
 
-      - name: Build ${{ matrix.layout }} APK
+      # ── Full APK ──
+      - name: Build full APK
+        continue-on-error: true
         run: |
-          echo "APP_LAYOUT=${{ matrix.layout }}" >> local.properties
+          echo "APP_LAYOUT=full" >> local.properties
           ./gradlew assembleDebug --stacktrace
 
-      - name: Rename APK
+      - name: Rename full APK
         run: |
-          cp app/build/outputs/apk/debug/streamflix-debug.apk \
-             streamflix-${{ matrix.layout }}-debug.apk
+          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
+            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-full-debug.apk
+          fi
 
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: streamflix-${{ matrix.layout }}-debug
-          path: streamflix-${{ matrix.layout }}-debug.apk
-          retention-days: 90
+      # ── Mobile APK ──
+      - name: Build mobile APK
+        continue-on-error: true
+        run: |
+          echo "APP_LAYOUT=mobile" >> local.properties
+          ./gradlew assembleDebug --stacktrace
 
-  release:
-    name: Create Release
-    if:
-      ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') }}
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download all APKs
-        uses: actions/download-artifact@v4
-        with:
-          pattern: streamflix-*
-          merge-multiple: true
+      - name: Rename mobile APK
+        run: |
+          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
+            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-mobile-debug.apk
+          fi
 
+      # ── TV APK ──
+      - name: Build TV APK
+        continue-on-error: true
+        run: |
+          echo "APP_LAYOUT=tv" >> local.properties
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Rename TV APK
+        run: |
+          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
+            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-tv-debug.apk
+          fi
+
+      # ── Release ──
       - name: Create Release
+        if:
+          ${{ github.event_name == 'push' && startsWith(github.ref,
+          'refs/tags/') }}
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ github.ref_name }}
