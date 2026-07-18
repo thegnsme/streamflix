@@ -47,9 +47,9 @@ jobs:
 
       - name: Rename full APK
         run: |
-          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
-            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-full-debug.apk
-          fi
+          apk=$(find app/build/outputs/apk/debug -name '*.apk' 2>/dev/null | head -1)
+          if [ -n "$apk" ]; then cp "$apk" streamflix-full-debug.apk; fi
+          echo "APK source: ${apk:-none}"
 
       # ── Mobile APK ──
       - name: Build mobile APK
@@ -60,9 +60,9 @@ jobs:
 
       - name: Rename mobile APK
         run: |
-          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
-            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-mobile-debug.apk
-          fi
+          apk=$(find app/build/outputs/apk/debug -name '*.apk' 2>/dev/null | head -1)
+          if [ -n "$apk" ]; then cp "$apk" streamflix-mobile-debug.apk; fi
+          echo "APK source: ${apk:-none}"
 
       # ── TV APK ──
       - name: Build TV APK
@@ -73,9 +73,9 @@ jobs:
 
       - name: Rename TV APK
         run: |
-          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
-            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-tv-debug.apk
-          fi
+          apk=$(find app/build/outputs/apk/debug -name '*.apk' 2>/dev/null | head -1)
+          if [ -n "$apk" ]; then cp "$apk" streamflix-tv-debug.apk; fi
+          echo "APK source: ${apk:-none}"
 
       # ── Release ──
       - name: Create Release
