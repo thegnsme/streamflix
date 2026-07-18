@@ -3,7 +3,17 @@ name: Build & Release APK
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: "Build type"
+        required: true
+        default: "debug"
+        type: choice
+        options:
+          - debug
+          - release
 
 jobs:
   build-and-release:
@@ -11,98 +21,107 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Setup JDK environment
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
           java-version: 17
+          distribution: "temurin"
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key:
+            ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*',
+            '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Access Secrets
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           RABBITSTREAM_SOURCE_API: ${{ secrets.RABBITSTREAM_SOURCE_API }}
         run: |
-          echo TMDB_API_KEY=$TMDB_API_KEY >> local.properties
-          echo RABBITSTREAM_SOURCE_API=$RABBITSTREAM_SOURCE_API >> local.properties
+          echo "TMDB_API_KEY=${TMDB_API_KEY:-test}" >> local.properties
+          echo "RABBITSTREAM_SOURCE_API=${RABBITSTREAM_SOURCE_API:-test}" >> local.properties
+          echo "SUBDL_API_KEY=test" >> local.properties
 
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
-      - name: Build APK
-        run: ./gradlew assembleRelease --stacktrace
-
-      - name: Sign APK
-        id: sign_apk
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.KEYSTORE }}
-          alias: ${{ secrets.SIGNING_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-
-      - name: Upload Release APK
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
-          asset_name: ${{ github.event.repository.name }}-${{ github.ref_name }}.apk
-          asset_content_type: application/zip
-
-
-      - name: Set Mobile version
+      # ── Build: Full (default) ──
+      - name: Build APK (full)
+        id: build_full
         run: |
           echo APP_LAYOUT=mobile >> local.properties
+          ./gradlew assembleDebug --stacktrace
+        continue-on-error: true
 
-      - name: Build APK
-        run: ./gradlew assembleRelease --stacktrace
-
-      - name: Sign APK
-        id: sign_apk_mobile
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.KEYSTORE }}
-          alias: ${{ secrets.SIGNING_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Upload Release APK
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.sign_apk_mobile.outputs.signedReleaseFile }}
-          asset_name: ${{ github.event.repository.name }}-${{ github.ref_name }}-only-mobile.apk
-          asset_content_type: application/zip
-
-
-      - name: Set TV version
+      - name: Rename full APK
         run: |
-          echo APP_LAYOUT=tv >> local.properties
+          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
+            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-full-debug.apk
+            echo "full_apk_exists=true" >> $GITHUB_ENV
+          else
+            echo "full_apk_exists=false" >> $GITHUB_ENV
+          fi
 
-      - name: Build APK
-        run: ./gradlew assembleRelease --stacktrace
+      # ── Build: Mobile only ──
+      - name: Set Mobile version
+        run: echo APP_LAYOUT=mobile >> local.properties
 
-      - name: Sign APK
-        id: sign_apk_tv
+      - name: Build APK (mobile)
+        id: build_mobile
+        run: ./gradlew assembleDebug --stacktrace
+        continue-on-error: true
+
+      - name: Rename mobile APK
+        run: |
+          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
+            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-mobile-debug.apk
+            echo "mobile_apk_exists=true" >> $GITHUB_ENV
+          else
+            echo "mobile_apk_exists=false" >> $GITHUB_ENV
+          fi
+
+      # ── Build: TV only ──
+      - name: Set TV version
+        run: echo APP_LAYOUT=tv >> local.properties
+
+      - name: Build APK (tv)
+        id: build_tv
+        run: ./gradlew assembleDebug --stacktrace
+        continue-on-error: true
+
+      - name: Rename TV APK
+        run: |
+          if [ -f app/build/outputs/apk/debug/streamflix-debug.apk ]; then
+            cp app/build/outputs/apk/debug/streamflix-debug.apk streamflix-tv-debug.apk
+            echo "tv_apk_exists=true" >> $GITHUB_ENV
+          else
+            echo "tv_apk_exists=false" >> $GITHUB_ENV
+          fi
+
+      # ── Release (signed) ──
+      - name: Build Release APK (full)
+        id: build_release
+        if:
+          ${{ github.event_name == 'push' && startsWith(github.ref,
+          'refs/tags/') }}
+        run: |
+          echo APP_LAYOUT=full >> local.properties
+          ./gradlew assembleRelease --stacktrace
+        continue-on-error: true
+
+      - name: Sign Release APK
+        id: sign_apk
+        if:
+          ${{ steps.build_release.outcome == 'success' && secrets.KEYSTORE != ''
+          }}
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: app/build/outputs/apk/release
@@ -113,12 +132,31 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Upload Release APK
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # ── Create Release ──
+      - name: Create Release
+        id: create_release
+        if:
+          ${{ github.event_name == 'push' && startsWith(github.ref,
+          'refs/tags/') }}
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.sign_apk_tv.outputs.signedReleaseFile }}
-          asset_name: ${{ github.event.repository.name }}-${{ github.ref_name }}-only-tv.apk
-          asset_content_type: application/zip
+          name: ${{ github.ref_name }}
+          body: |
+            ## Streamflix ${{ github.ref_name }}
+
+            Download the APK matching your device:
+
+            | File | Description |
+            |------|-------------|
+            | `streamflix-full-debug.apk` | All layouts (recommended) |
+            | `streamflix-mobile-debug.apk` | Mobile-only layout |
+            | `streamflix-tv-debug.apk` | TV-only layout |
+
+            **Note**: Debug APKs are unsigned. Enable "Install from unknown sources" on your device.
+          files: |
+            streamflix-full-debug.apk
+            streamflix-mobile-debug.apk
+            streamflix-tv-debug.apk
+          fail_on_unmatched_files: false
+          draft: false
+          prerelease: false
