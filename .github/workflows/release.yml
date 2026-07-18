@@ -119,9 +119,7 @@ jobs:
 
       - name: Sign Release APK
         id: sign_apk
-        if:
-          ${{ steps.build_release.outcome == 'success' && secrets.KEYSTORE != ''
-          }}
+        if: ${{ steps.build_release.outcome == 'success' }}
         uses: r0adkll/sign-android-release@v1
         with:
           releaseDirectory: app/build/outputs/apk/release
