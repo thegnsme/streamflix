@@ -71,7 +71,7 @@ class CloudstreamModelMapper(
         if (loadResponse == null) return null
         return runCatching {
             val year = reflector.getProperty<Int>(loadResponse, "year")
-            val rawSeasons: List<*> = reflector.getProperty<List<*>>(loadResponse, "seasons") ?: emptyList()
+            val rawSeasons: List<*> = reflector.getProperty<List<*>>(loadResponse, "seasons") ?: emptyList<Any>()
 
             TvShow(
                 id = reflector.getStringProperty(loadResponse, "url") ?: "",
@@ -106,7 +106,7 @@ class CloudstreamModelMapper(
     fun toStreamflixSeason(seasonData: Any?): Season? {
         if (seasonData == null) return null
         return runCatching {
-            val rawEpisodes: List<*> = reflector.getProperty<List<*>>(seasonData, "episodes") ?: emptyList()
+            val rawEpisodes: List<*> = reflector.getProperty<List<*>>(seasonData, "episodes") ?: emptyList<Any>()
             Season(
                 id = reflector.getStringProperty(seasonData, "url") ?: "",
                 number = reflector.getProperty<Int>(seasonData, "season")
