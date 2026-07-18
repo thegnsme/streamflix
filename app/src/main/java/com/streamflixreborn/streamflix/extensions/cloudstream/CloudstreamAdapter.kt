@@ -101,7 +101,7 @@ class CloudstreamAdapter(
             } catch (_: NoSuchMethodException) {
                 reflector.callSuspendMethod<Any>(pluginInstance, "load", id)
             }
-            mapper.toStreamflixMovie(result)
+            mapper.toStreamflixMovie(result) ?: throw IllegalStateException("Movie not found: $id")
         }.getOrThrow()
     }
 
@@ -126,7 +126,7 @@ class CloudstreamAdapter(
             } catch (_: NoSuchMethodException) {
                 reflector.callSuspendMethod<Any>(pluginInstance, "load", id)
             }
-            mapper.toStreamflixTvShow(result)
+            mapper.toStreamflixTvShow(result) ?: throw IllegalStateException("TvShow not found: $id")
         }.getOrThrow()
     }
 
@@ -157,8 +157,9 @@ class CloudstreamAdapter(
                     reflector.callSuspendMethod<Any>(pluginInstance, "load", showUrl)
                 }
 
-                val rawSeasons = reflector.getProperty<List<*>>(showResult, "seasons")
-                    ?: return@runCatching emptyList<Episode>()
+                val rawSeasons = showResult?.let {
+                        reflector.getProperty<List<*>>(it, "seasons")
+                    } ?: return@runCatching emptyList<Episode>()
 
                 rawSeasons.firstNotNullOfOrNull { seasonData ->
                     if (seasonData == null) return@firstNotNullOfOrNull null

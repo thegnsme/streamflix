@@ -1,7 +1,6 @@
 package com.streamflixreborn.streamflix.providers
 
 import com.streamflixreborn.streamflix.adapters.AppAdapter
-import com.streamflixreborn.streamflix.extensions.adapter.ProviderRegistry
 import com.streamflixreborn.streamflix.models.Category
 import com.streamflixreborn.streamflix.models.Episode
 import com.streamflixreborn.streamflix.models.Genre
@@ -138,11 +137,7 @@ interface Provider {
         }
 
         fun findByName(name: String): Provider? {
-            // First check built-in providers
-            val builtIn = providers.keys.find { it.name == name }
-            if (builtIn != null) return builtIn
-            // Then check extension providers
-            return ProviderRegistry.findByName(name)
+            return providers.keys.find { it.name == name }
         }
     }
 }

@@ -27,19 +27,25 @@ class CloudstreamReflector {
     // ── Basic reflection helpers ───────────────────────────────────────
 
     /** Reads a [String] property from [obj] by field [name]. */
-    fun getStringProperty(obj: Any, name: String): String? = runCatching {
-        val field = obj::class.java.getDeclaredField(name)
-        field.isAccessible = true
-        field.get(obj) as? String
-    }.getOrNull()
+    fun getStringProperty(obj: Any?, name: String): String? {
+        if (obj == null) return null
+        return runCatching {
+            val field = obj::class.java.getDeclaredField(name)
+            field.isAccessible = true
+            field.get(obj) as? String
+        }.getOrNull()
+    }
 
     /** Reads a typed property from [obj] by field [name]. */
     @Suppress("UNCHECKED_CAST")
-    fun <T> getProperty(obj: Any, name: String): T? = runCatching {
-        val field = obj::class.java.getDeclaredField(name)
-        field.isAccessible = true
-        field.get(obj) as? T
-    }.getOrNull()
+    fun <T> getProperty(obj: Any?, name: String): T? {
+        if (obj == null) return null
+        return runCatching {
+            val field = obj::class.java.getDeclaredField(name)
+            field.isAccessible = true
+            field.get(obj) as? T
+        }.getOrNull()
+    }
 
     /** Calls a method on [obj] by name, returning the result or null. */
     fun callMethod(obj: Any, methodName: String, vararg args: Any?): Any? = runCatching {
