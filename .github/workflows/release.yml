@@ -98,28 +98,36 @@ jobs:
             echo "⚠️ No APK found for tv build"
           fi
 
-      # ── Release ──
+      # ── Release (create + upload via gh CLI) ──
       - name: Create Release
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          name: ${{ github.ref_name }}
-          body: |
-            ## Streamflix ${{ github.ref_name }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          apks=(streamflix-*-debug.apk)
+          if [ ${#apks[@]} -eq 0 ] || [ ! -f "${apks[0]}" ]; then
+            echo "::warning::No APK files found. Build may have failed."
+            exit 0
+          fi
+          echo "Creating release with ${#apks[@]} APK(s): ${apks[*]}"
+          # Try create; if release already exists (re-tag), upload to existing
+          gh release create "${{ github.ref_name }}" \
+            --title "${{ github.ref_name }}" \
+            --notes "## Streamflix ${{ github.ref_name }}
 
-            Download the APK matching your device:
+          Download the APK matching your device:
 
-            | File | Description |
-            |------|-------------|
-            | `streamflix-full-debug.apk` | All layouts (recommended) |
-            | `streamflix-mobile-debug.apk` | Mobile-only |
-            | `streamflix-tv-debug.apk` | TV (Leanback) |
+          | File | Description |
+          |------|-------------|
+          | \`streamflix-full-debug.apk\` | All layouts (recommended) |
+          | \`streamflix-mobile-debug.apk\` | Mobile-only |
+          | \`streamflix-tv-debug.apk\` | TV (Leanback) |
 
-            **Note**: Debug APKs are unsigned. Enable "Install from unknown sources" on your device.
-          files: |
-            streamflix-full-debug.apk
-            streamflix-mobile-debug.apk
-            streamflix-tv-debug.apk
-          fail_on_unmatched_files: false
-          draft: false
-          prerelease: false
+          **Note**: Debug APKs are unsigned. Enable \"Install from unknown sources\" on your device." \
+            "${apks[@]}" 2>&1 || {
+            echo "Release may already exist, uploading assets..."
+            for apk in "${apks[@]}"; do
+              gh release upload "${{ github.ref_name }}" "$apk" --clobber 2>&1 || true
+            done
+          }
